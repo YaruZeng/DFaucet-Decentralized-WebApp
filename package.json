@@ -16,9 +16,6 @@
     "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations"
   },
   "devDependencies": {
-    "@dfinity/agent": "0.10.3",
-    "@dfinity/candid": "0.10.3",
-    "@dfinity/principal": "0.10.3",
     "@material-ui/core": "4.6.1",
     "@material-ui/icons": "4.5.1",
     "assert": "2.0.0",
@@ -37,22 +34,25 @@
     "webpack": "5.69.1",
     "webpack-cli": "4.9.2",
     "webpack-dev-server": "^4.4.0"
-},
-"browserslist": [
+  },
+  "browserslist": [
     "last 2 chrome version",
     "last 2 firefox version",
     "last 2 safari version",
     "last 2 edge version"
-],
-"dependencies": {
+  ],
+  "dependencies": {
+    "@dfinity/agent": "^0.19.2",
+    "@dfinity/auth-client": "^0.19.2",
+    "@dfinity/authentication": "^0.14.2",
+    "@dfinity/candid": "^0.19.2",
+    "@dfinity/identity": "^0.19.2",
+    "@dfinity/principal": "^0.19.2",
+    "lit-html": "^1.4.1",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-scripts": "5.0.0",
-    "@dfinity/auth-client": "^0.10.3",
-    "@dfinity/authentication": "^0.10.3",
-    "@dfinity/identity": "^0.10.3",
-    "lit-html": "^1.4.1",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.5"
-}
+  }
 }
