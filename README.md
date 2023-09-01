@@ -1,59 +1,16 @@
-# Check your Balance
+# DFaucet
 
-1. Find out your principal id:
+Welcome to my DFaucet project which is supported by Udemy - The Complete 2023 Web Development Bootcamp. This webApp is deployed by dfx and note.js in the environment of ICP(Internet Computer) with backend supported by Motoko, and frontend by CSS, HTML, and React. 
 
-```
-dfx identity get-principal
-```
-
-2. Save it somewhere.
-
-e.g. My principal id is: rv6gp-xz7if-oikw6-jcql4-iu5e2-6jx5h-6yyhd-pdhmo-hz3dx-dgq2c-4ae
+<img width="1905" alt="image" src="https://github.com/IvyZayn/DFaucet-Decentralized-WebApp/assets/91594306/b743d759-6f68-42ed-b897-4b7f30b7fdb4">
 
 
-3. Format and store it in a command line variable:
-```
-OWNER_PUBLIC_KEY="principal \"$( \dfx identity get-principal )\""
-```
-
-4. Check that step 3 worked by printing it out:
-```
-echo $OWNER_PUBLIC_KEY
-```
-
-5. Check the owner's balance:
-```
-dfx canister call token balanceOf "( $OWNER_PUBLIC_KEY )"
-```
-
-# Charge the Canister
-
-
-1. Check canister ID:
-```
-dfx canister id token
-```
-
-2. Save canister ID into a command line variable:
-```
-CANISTER_PUBLIC_KEY="principal \"$( \dfx canister id token )\""
-```
-
-3. Check canister ID has been successfully saved:
-```
-echo $CANISTER_PUBLIC_KEY
-```
-
-4. Transfer half a billion tokens to the canister Principal ID:
-```
-dfx canister call token transfer "($CANISTER_PUBLIC_KEY, 500_000_000)"
-```
-
-# Deploy the Project to the Live IC Network
+# Deploy the Project to the Live IC Network and run it
 
 1. Create and deploy canisters:
 
 ```
+cd DFaucet-Decentralized-WebApp/
 dfx deploy --network ic
 ```
 
@@ -81,5 +38,6 @@ dfx canister --network ic call token transfer "($LIVE_CANISTER_KEY, 50_000_000)"
 ```
 dfx canister --network ic id token_assets
 ```
+
 7. Copy the id from step 6 and add .raw.ic0.app to the end to form a URL.
 e.g. zdv65-7qaaa-aaaai-qibdq-cai.raw.ic0.app
