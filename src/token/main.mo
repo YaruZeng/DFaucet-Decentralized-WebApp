@@ -30,8 +30,8 @@ actor Token {
                 
                 if (balances.get(msg.caller) == null) { // a user can only faucet once
                         let amount = 10000;
-                        balances.put(msg.caller, amount);
-                        return "Success";  
+                        let result = await transfer(msg.caller, amount);
+                        return result;  // to show on frontend 
                 } else {
                         return "Already Claimed";
                 }
