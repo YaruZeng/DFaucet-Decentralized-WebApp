@@ -1,18 +1,20 @@
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
 import Debug "mo:base/Debug";
+import Iter "mo:base/Iter";
 
 actor Token {
 
-        var owner : Principal = Principal.fromText("rv6gp-xz7if-oikw6-jcql4-iu5e2-6jx5h-6yyhd-pdhmo-hz3dx-dgq2c-4ae");
-        var totalSupply : Nat = 1000000000;
-        var symbol : Text = "Samaritan";
+        let owner : Principal = Principal.fromText("rv6gp-xz7if-oikw6-jcql4-iu5e2-6jx5h-6yyhd-pdhmo-hz3dx-dgq2c-4ae");
+        let totalSupply : Nat = 1000000000;
+        let symbol : Text = "Samaritan";
 
-        var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash); // create a hashmap as the ledger to store <owener: tokenNum> pair
+        private stable var balanceEntries: [(Principal, Nat)] = []; // use an array of tuple to make hashMap stable
+        private var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash); // create a hashmap as the ledger to store <owener: tokenNum> pair
+        if (balances.size() < 1) {
+                balances.put(owner, totalSupply); // store the administer account here in case there isn't a upgrade
+        };
 
-        balances.put(owner, totalSupply); // store the above owner
-
-        
         public query func balanceOf(who: Principal) : async Nat { // query for a user's balance
 
                 let balance : Nat = switch (balances.get(who)) { // get rid of type ?Nat
@@ -55,4 +57,16 @@ actor Token {
                         return "Insufficient Funds";
                 }
         };
-}
+
+        system func preupgrade() { // shifted <owener, tokenNum> pairs in the balances hashMap into balanceEntries array before every upgrade
+                balanceEntries := Iter.toArray(balances.entries());
+        };
+
+        system func postupgrade() { // shifted <owener, tokenNum> pairs in balanceEntries array into the balances hashMap after every upgrade
+                balances := HashMap.fromIter<Principal, Nat>(balanceEntries.vals(), 1, Principal.equal, Principal.hash);
+                if (balances.size() < 1) {
+                        balances.put(owner, totalSupply); // store the administer account
+                }
+        };
+
+};

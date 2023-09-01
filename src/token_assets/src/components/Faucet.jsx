@@ -19,7 +19,7 @@ function Faucet() {
         </span>
         Faucet
       </h2>
-      <label>Get your free DAngela tokens here! Claim 10,000 Samaritan token to your account.</label>
+      <label>Get your free Samaritan tokens here! Claim 10,000 Samaritan tokens to your account.</label>
       <p className="trade-buttons">
         <button id="btn-payout" onClick={handleClick} disabled={isDisabled}>
           {buttonText}
