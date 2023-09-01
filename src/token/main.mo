@@ -1,6 +1,6 @@
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
-
+import Debug "mo:base/Debug";
 
 actor Token {
 
@@ -24,5 +24,17 @@ actor Token {
 
         public query func getSymbol(): async Text { // get the symbol of token
                 return symbol;
-        }
+        };
+
+        public shared(msg) func payOut() : async Text { // faucet user tokens, use shared(msg) to get cananister id of the user who called the function
+                
+                if (balances.get(msg.caller) == null) { // a user can only faucet once
+                        let amount = 10000;
+                        balances.put(msg.caller, amount);
+                        return "Success";  
+                } else {
+                        return "Already Claimed";
+                }
+                
+        };
 }
