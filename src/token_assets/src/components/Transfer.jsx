@@ -1,9 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
+import {Principal} from '@dfinity/principal';
+import {token} from "../../../declarations/token";
 
 function Transfer() {
-  
+  const [recipientId, setId] = useState(""); // control the states of the input ID
+  const [amount, setAmount] = useState(""); // control the states of the input amount
+  const [feedback, setFeedback] = useState(""); // control the states of the feedback text
+  const [isDisabled, setDisabled] = useState(false); // control the states of the button
+  const [isHidden, setHidden] = useState(true); // control the states of the feedback paragraph
+
   async function handleClick() {
-    
+    setHidden(true);
+    setDisabled(true);
+    const recipient = Principal.fromText(recipientId);
+    const amountToTransfer = Number(amount);
+    const result = await token.transfer(recipient, amountToTransfer);
+    setFeedback(result);
+    setHidden(false);
+    setDisabled(false);
   }
 
   return (
@@ -16,6 +30,8 @@ function Transfer() {
               <input
                 type="text"
                 id="transfer-to-id"
+                value={recipientId}
+                onChange={(e) => setId(e.target.value)}
               />
             </li>
           </ul>
@@ -27,15 +43,18 @@ function Transfer() {
               <input
                 type="number"
                 id="amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </li>
           </ul>
         </fieldset>
         <p className="trade-buttons">
-          <button id="btn-transfer" onClick={handleClick} >
+          <button id="btn-transfer" onClick={handleClick} disabled={isDisabled}>
             Transfer
           </button>
         </p>
+        <p hidden={isHidden}>{feedback}</p>
       </div>
     </div>
   );

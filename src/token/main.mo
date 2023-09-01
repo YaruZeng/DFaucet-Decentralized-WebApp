@@ -37,4 +37,22 @@ actor Token {
                 }
                 
         };
+
+        public shared(msg) func transfer(to: Principal, amount: Nat) : async Text { // transfer token by subtracting from the caller and adding to another user
+                let fromBalance = await balanceOf(msg.caller);
+
+                if (fromBalance > amount) {
+                        let newFromBalance: Nat = fromBalance - amount; // subtract amount from tranferer
+                        balances.put(msg.caller, newFromBalance);
+
+                        let toBalance = await balanceOf(to);
+                        let newToBalance = toBalance + amount; // add amount to tranferee
+                        balances.put(to, newToBalance);
+
+                        return "Success";
+                } else {
+
+                        return "Insufficient Funds";
+                }
+        };
 }
